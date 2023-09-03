@@ -1,0 +1,11 @@
+pandas
+openpyxl
+
+striprtf
+
+webdriver-manager
+selenium
+
+pymongo
+
+black
