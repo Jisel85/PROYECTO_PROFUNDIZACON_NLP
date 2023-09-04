@@ -1,7 +1,6 @@
 import os
 import json
 import logging
-import concurrent.futures
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By

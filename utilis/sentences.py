@@ -4,6 +4,8 @@ import json
 import logging
 from pathlib import Path
 import pandas as pd
+from pymongo import MongoClient
+from striprtf.striprtf import rtf_to_text
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -67,5 +69,67 @@ def get_json_sentences_urls(folder):
             f.write(json.dumps(json_sentences))
 
 
-sentences_webscraping = MAIN_PATH / "data" / "data_sentences"
-get_json_sentences_urls(sentences_webscraping)
+def get_text_sentence_raw(sentence):
+    path_to_read = MAIN_PATH / "data" / "sentences_webscraping" / f"{sentence}.rtf"
+    with open(path_to_read, "r") as doc:
+        rtf_text = doc.read()
+    string_sentence = rtf_to_text(rtf_text)
+    return string_sentence
+
+
+class Sentences:
+    """
+    Note: Start connexion with MongoDB in local --->  sudo systemctl start mongod
+    """
+
+    def __init__(self, db_name: str):
+        self.db_name = db_name
+        self.mongo_client = MongoClient(host="localhost", port=27017)
+        self.database = None
+        self.db_collections = None
+        self.MAIN_PATH = Path(os.getcwd())
+        self.PATH_TO_READ = self.MAIN_PATH / "data" / "downloads_files_sentences"
+        self.PATH_TO_WRITE = self.MAIN_PATH / "data" / "preprocessing_corpus"
+
+    def _get_connection_database_mongo(self):
+        """
+        Create a connection to the MongoDB DB from the init.
+        :return: A database object
+        """
+        if self.db_name not in self.mongo_client.list_database_names():
+            raise ValueError(f"Database {self.db_name} does not exist. Must be create the DB in mongo first!")
+        self.database = self.mongo_client[self.db_name]
+        return self.database
+
+    def get_collection(self, name_collection):
+        """
+        :param name_collection: Name of collection in MongoDB
+        :return: pymongo.collection.Collection
+        """
+        database = self._get_connection_database_mongo()
+        self.db_collections = self.database.list_collection_names()
+        if name_collection not in self.db_collections:
+            raise ValueError(f"The collection {name_collection} in MongoDB {self.db_name} does not exist.")
+        collection = database[name_collection]
+        return collection
+
+    def write_sentence_in_mongodb(self, sentence, name_collection: str):
+        """
+        This function write in mongoDB the sentence_raw (Downloaded in .rft)
+        :param name_collection:
+        :param sentence:
+        :return:
+        """
+        sentence_raw = get_text_sentence_raw(sentence)
+        document = {"id_sentence": sentence, "text_raw": sentence_raw}
+        # try:
+        existing_document = self.get_collection(name_collection).find_one({"id_sentence": document["id_sentence"]})
+        if existing_document is not None:
+            raise ValueError(f"No es posible reescribir la información de la sentencia.!")
+
+        self.get_collection(name_collection).insert_one(document)
+        self.mongo_client.close()
+        # except:
+        #     print(f"The database {self.db_name} has a new collection: {name_collection} OJO")
+        #     collection = self.database[name_collection]
+        #     collection.insert_one(document)

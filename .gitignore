@@ -169,6 +169,5 @@ cython_debug/
 *.ipynb
 
 # Data Proyect.
-
 data/
 
