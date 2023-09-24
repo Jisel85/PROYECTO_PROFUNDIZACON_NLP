@@ -13,7 +13,7 @@ logging.basicConfig(
 )
 
 MAIN_PATH = Path(os.getcwd())
-FOLDER_TO_READ = MAIN_PATH / "data" / "sentences_webscraping"
+FOLDER_TO_READ = MAIN_PATH / "data" / "downloaded_rulings"
 url_base = "https://www.corteconstitucional.gov.co/relatoria/"
 
 
@@ -39,11 +39,11 @@ def get_url_sentence(sentence):
         return url_sentence
 
 
-def get_json_sentences_urls(folder: pathlib.Path) -> None:
+def get_json_sentences_urls(folder: pathlib.Path):
     """
     A JSON file is obtained with the sentence (id_sentence) information (key) and its url (value).
-    :param folder: Folder with the Excel files (.xlsx) where the sentences are detailed. folder must be a Path object.
-    :return: None
+    :param pathlib.Path folder: Folder with the Excel files (.xlsx) where the sentences are detailed.
+    :return:
     """
     if not (MAIN_PATH / "data" / "sentences.json").exists():
         with open("data/sentences.json", "w") as file:
@@ -88,7 +88,7 @@ def get_text_sentence_raw(sentence):
 
 class Sentences:
     """
-    The init is a mongodb's name of  in localhost. Must be existed the collections raw_texts and urls to use this class.
+    The init is a mongodb's name of in localhost. Must be existed the collections raw_texts and urls to use this class.
 
     Note: Start connexion with MongoDB in local --->  sudo systemctl start mongod
     """
@@ -98,7 +98,7 @@ class Sentences:
         self.mongo_client = MongoClient(host="localhost", port=27017)
         self.database = None
 
-    def _get_connection_mongodb(self) -> None:
+    def _create_connection_mongobd(self) -> None:
         """
         Create a connection to the MongoDB DB from the init.
         """
@@ -113,7 +113,7 @@ class Sentences:
         :param name_collection: Name of collection in MongoDB
         :return: pymongo.collection.Collection (name_collection)
         """
-        self._get_connection_mongodb()
+        self._create_connection_mongobd()
         if name_collection not in self.database.list_collection_names():
             raise ValueError(
                 f"The collection {name_collection} in MongoDB {self.db_name} does not exist."

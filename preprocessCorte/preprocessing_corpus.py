@@ -3,7 +3,7 @@ import logging
 import concurrent.futures
 from functools import partial
 from pathlib import Path
-from utilis.sentences import Sentences, get_json_sentences_urls
+from utils.sentences import Sentences, get_json_sentences_urls
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"

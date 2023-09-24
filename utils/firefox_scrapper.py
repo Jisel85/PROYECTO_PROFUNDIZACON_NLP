@@ -11,15 +11,12 @@ logging.basicConfig(
 )
 
 MAIN_PATH = Path(os.getcwd())
-download_folder_sentences = MAIN_PATH / "data" / "sentences_webscraping"
+download_folder_sentences = MAIN_PATH / "data" / "downloaded_rulings"
 
 options = Options()
 options.set_preference(name="browser.download.folderList", value=2)
 options.set_preference("browser.download.dir", str(download_folder_sentences))
 options.add_argument("--headless")
-
-with open("data/sentences.json", "r") as file:
-    json_sentences = json.loads(file.read())
 
 
 def open_browser():
@@ -27,13 +24,12 @@ def open_browser():
     return webdriver.Firefox(options=options)
 
 
-def get_sentence_by_url(sentence):
+def get_sentence_by_url(sentence, url_sentence):
     """"""
     file_path = download_folder_sentences / f"{sentence}.rtf"
     if file_path.exists():
         return None
 
-    url_sentence = json_sentences[sentence]
     driver = open_browser()
     driver.get(url_sentence)
     try:
@@ -42,11 +38,13 @@ def get_sentence_by_url(sentence):
         )
         radicado_bt.click()
     except:
-        logging.exception(f"Have a exception in URL: {url}")
+        logging.exception(f"Have a exception in sentence: {sentence}")
     driver.close()
     return None
 
 
-urls = list(json_sentences.keys())
-for url in urls:
-    get_sentence_by_url(url)
+with open("data/sentences.json", "r") as file:
+    json_sentences = json.loads(file.read())
+
+for sentence, url_sentence in json_sentences.items():
+    get_sentence_by_url(sentence, url_sentence)

@@ -1,18 +1,16 @@
-pandas
+pandas~=2.1.1
 openpyxl
 
-striprtf
+striprtf~=0.0.26
 
 webdriver-manager
-selenium
+selenium~=4.12.0
 
-pymongo
+pymongo~=4.5.0
+
+openai~=0.28.0
+langchain~=0.0.299
+torch~=2.0.1
+transformers[torch]~=4.33.2
 
 black
-
-
-# for langchain
-langchain==0.0.285
-transforms==4.33.1
-torch==2.0.1 # pip install torch -f https://download.pytorch.org/whl/torch_stable.html
-accelerate==0.22.0
