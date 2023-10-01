@@ -44,7 +44,7 @@ def get_summary_judgment(judgment):
     return judgment_summary
 
 
-client_judgment = MongoJudgments("T-672-97")
-summary = get_summary_judgment(judgment=client_judgment.judgment)
+judgment_client = MongoJudgments("T-672-97")
+summary = get_summary_judgment(judgment=judgment_client.judgment)
 print(summary)
-client_judgment.write_judgment_feature(content=summary, feature="summary_gpt-3_5-turbo-16k")
+judgment_client.write_judgment_feature(content=summary, feature="summary_gpt-3_5-turbo-16k")

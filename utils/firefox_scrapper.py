@@ -5,7 +5,8 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
-from utils.judgments import write_json_judgments_urls
+from preprocessCorte.preprocessing_judgments import write_json_judgments_urls
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -19,11 +20,9 @@ options.set_preference(name="browser.download.folderList", value=2)
 options.set_preference("browser.download.dir", str(download_folder_judgments))
 options.add_argument("--headless")
 
-if not (MAIN_PATH / "data" / "judgments.json").exists():
-    path_excels = Path("/home/andres-campos/github_private/PROYECTO_PROFUNDIZACON_NLP/data/data_judgments")
-    write_json_judgments_urls(path_excels)
+write_json_judgments_urls(MAIN_PATH / "data" / "data_judgments")
 
-with open("data/judgments.json", "r") as file:
+with open(MAIN_PATH / "data" / "judgments.json", "r") as file:
     json_judgments = json.loads(file.read())
 
 
