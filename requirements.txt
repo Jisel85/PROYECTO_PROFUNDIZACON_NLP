@@ -14,5 +14,7 @@ black
 # for langchain
 langchain==0.0.285
 transforms==4.33.1
-torch==2.0.1 # pip install torch -f https://download.pytorch.org/whl/torch_stable.html
+torch==2.0.1 # pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 accelerate==0.22.0
+
+# huggingface-cli login --token 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
