@@ -171,3 +171,8 @@ cython_debug/
 # Data Proyect.
 data/
 
+# Data Models
+ruta/
+
+#archivos gpt
+.dat
