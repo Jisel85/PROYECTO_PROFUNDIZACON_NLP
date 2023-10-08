@@ -5,46 +5,57 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from preprocessCorte.preprocessing_judgments import write_json_judgments_urls
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 MAIN_PATH = Path(os.getcwd())
-download_folder_sentences = MAIN_PATH / "data" / "downloaded_rulings"
+download_folder_judgments = MAIN_PATH / "data" / "downloaded_judgments"
 
 options = Options()
 options.set_preference(name="browser.download.folderList", value=2)
-options.set_preference("browser.download.dir", str(download_folder_sentences))
+options.set_preference("browser.download.dir", str(download_folder_judgments))
 options.add_argument("--headless")
+
+write_json_judgments_urls(MAIN_PATH / "data" / "data_judgments")
+
+with open(MAIN_PATH / "data" / "judgments.json", "r") as file:
+    json_judgments = json.loads(file.read())
 
 
 def open_browser():
-    """"""
+    """
+    :return:
+    """
     return webdriver.Firefox(options=options)
 
 
-def get_sentence_by_url(sentence, url_sentence):
-    """"""
-    file_path = download_folder_sentences / f"{sentence}.rtf"
+def get_judgment_file(judgment):
+    """
+    :param judgment: Label judgment. Ex:
+    :return:
+    """
+    file_path = download_folder_judgments / f"{judgment}.rtf"
     if file_path.exists():
         return None
 
+    url_judgment = json_judgments[judgment]
     driver = open_browser()
-    driver.get(url_sentence)
+    driver.get(url_judgment)
     try:
         radicado_bt = driver.find_element(
             By.XPATH, "/html/body/div[5]/div/div[3]/a/img"
         )
         radicado_bt.click()
     except:
-        logging.exception(f"Have a exception in sentence: {sentence}")
+        logging.exception(f"Have a exception in URL: {url_judgment}")
     driver.close()
     return None
 
 
-with open("data/sentences.json", "r") as file:
-    json_sentences = json.loads(file.read())
-
-for sentence, url_sentence in json_sentences.items():
-    get_sentence_by_url(sentence, url_sentence)
+judgments = list(json_judgments.keys())
+for judgment in judgments:
+    get_judgment_file(judgment)

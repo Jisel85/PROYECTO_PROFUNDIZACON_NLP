@@ -1,16 +1,15 @@
-pandas~=2.1.1
+pandas
 openpyxl
 
-striprtf~=0.0.26
+striprtf
 
 webdriver-manager
-selenium~=4.12.0
+selenium
 
-pymongo~=4.5.0
+pymongo
 
-openai~=0.28.0
-langchain~=0.0.299
-torch~=2.0.1
-transformers[torch]~=4.33.2
-
+openai
+langchain
+torch
+transformers[torch]
 black
