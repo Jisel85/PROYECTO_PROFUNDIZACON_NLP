@@ -17,5 +17,6 @@ sentencepiece
 tiktoken
 chromadb
 huggingface_hub
+gpt4all
 
 black

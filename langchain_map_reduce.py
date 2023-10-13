@@ -1,9 +1,13 @@
 from langchain.llms import HuggingFaceHub
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from langchain.globals import set_llm_cache
+from langchain.cache import InMemoryCache
+
+set_llm_cache(InMemoryCache())
 
 
-with open("data/text_to_roberta.txt", "r") as doc:
+with open("data/text_to_test.txt", "r") as doc:
     text_to_summarize = doc.read()
 
 template = """Dame el resumen en idioma español.

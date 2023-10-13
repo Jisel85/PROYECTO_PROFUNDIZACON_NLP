@@ -100,7 +100,7 @@ class MongoJudgments:
 
     def get_feature_of_judgment(self, feature):
         """
-        :param feature:
+        :param str feature:
         :return:
         """
         collection = self.judgment_collection

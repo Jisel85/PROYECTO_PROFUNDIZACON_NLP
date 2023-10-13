@@ -128,9 +128,9 @@ celerybeat.pid
 # Environments
 .env
 .venv
-env/
+.env/
 venv/
-ENV/
+.env/
 env.bak/
 venv.bak/
 
@@ -178,3 +178,8 @@ ruta/
 .dat
 
 data-mongo/
+
+# Files pull request #5
+docker-compose.yml
+queries.mongodb.js
+.vscode
