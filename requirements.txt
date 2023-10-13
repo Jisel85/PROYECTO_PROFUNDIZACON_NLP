@@ -12,4 +12,10 @@ openai
 langchain
 torch
 transformers[torch]
+
+sentencepiece
+tiktoken
+chromadb
+huggingface_hub
+
 black

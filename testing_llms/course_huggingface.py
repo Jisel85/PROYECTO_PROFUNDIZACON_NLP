@@ -3,6 +3,7 @@ import time
 from transformers import pipeline
 from langchain.llms import HuggingFacePipeline
 from langchain.prompts import PromptTemplate
+from transformers import AutoTokenizer, BartForConditionalGeneration
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -68,7 +69,6 @@ print(
 """
     )
 )
-
 
 # ============================================================================================================= #
 # ========================================= Langchain ========================================================= #
@@ -365,10 +365,19 @@ logging.info("End")
 # print(f"LLM's answer:\n")
 # print(chain.invoke({"text": input_text}))
 # logging.info("End")
-#
-#
-#
-#
-#
-#
-#
+
+model = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn")
+tokenizer = AutoTokenizer.from_pretrained("facebook/bart-large-cnn")
+
+with open("data/text_to_roberta.txt", "r") as doc:
+    text_to_summarize = doc.read()
+
+logging.info(f"Star")
+
+print(text_to_summarize)
+inputs = tokenizer([text_to_summarize], max_length=1024, return_tensors="pt")
+summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=0, max_length=512)
+var = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+print(var)
+
+logging.info(f"End")
