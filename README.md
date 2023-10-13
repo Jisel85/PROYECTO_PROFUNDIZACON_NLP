@@ -49,3 +49,22 @@ curl -O https://storage.googleapis.com/nvidia-drivers-us-public/GRID/vGPU16.1/NV
 sudo bash NVIDIA-Linux-x86_64-535.104.05-grid.run --uninstall
 sudo apt-get install linux-headers-`uname -r`
 sudo bash NVIDIA-Linux-x86_64-535.104.05-grid.run
+
+# utilizar sudo 
+# se puede directamente desde el ssh de gcp
+# desde vscode:
+su root
+# password: 12341234
+
+# install docker
+sudo apt update
+sudo apt install docker-compose
+
+# iniciar mongo
+docker-compose up -d
+
+# Extension VScode para ver la base de datos mongo: 
+mongodb.mongodb-vscode
+
+## Conexión al servidor de MongoDB (en este caso, está corriendo localmente)
+client = MongoClient("mongodb://localhost:27017/")

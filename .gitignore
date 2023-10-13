@@ -176,3 +176,5 @@ ruta/
 
 #archivos gpt
 .dat
+
+data-mongo/
