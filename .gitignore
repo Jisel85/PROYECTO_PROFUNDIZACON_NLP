@@ -183,3 +183,6 @@ data-mongo/
 docker-compose.yml
 queries.mongodb.js
 .vscode
+
+# Script testing
+testing_llms/
