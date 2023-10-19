@@ -11,9 +11,14 @@ pymongo
 openai
 langchain
 torch
-transformers[torch]
-
+git+https://github.com/huggingface/transformers
 sentencepiece
+# transformers[torch]
+
+scipy
+sentencepiece
+accelerate
+bitsandbytes
 tiktoken
 chromadb
 huggingface_hub
