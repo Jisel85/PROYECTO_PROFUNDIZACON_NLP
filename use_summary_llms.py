@@ -19,14 +19,14 @@ raw_text = judgment.get_feature_of_judgment("raw_text")
 summary = get_summary_from_openai(raw_text)
 print(summary)
 # ================================================================================================================= #
-
+#
 # ========================================== Example with gpt4all ================================================= #
 judgment = MongoJudgments("T-273-01")  # (Short Judgment, 7 pages)
 raw_text = judgment.get_feature_of_judgment("raw_text")
 summary = get_summary_from_llm_gpt4all(raw_text, model_name="llama-2-7b-chat", device=GPU_NAME)
 print(summary)
 # ================================================================================================================= #
-
+#
 # =================================== Example with Huggingface API inference ======================================= #
 judgment = MongoJudgments("T-991-10")  # (Medium Judgment, 15 pages)
 raw_text = judgment.get_feature_of_judgment("raw_text")

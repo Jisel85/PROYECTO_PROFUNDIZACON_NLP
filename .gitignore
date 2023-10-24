@@ -168,8 +168,11 @@ cython_debug/
 # Jupyter Notebooks
 *.ipynb
 
-# Data Proyect.
+# Data Project.
 data/
+
+# Models
+models/
 
 # Data Models
 ruta/

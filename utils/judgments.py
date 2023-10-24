@@ -32,7 +32,7 @@ class MongoJudgments:
     The init is a id_judgment (Ex: A-100-97). Must be existed the collection judgments in the database
     Project_NLP (local) and judgments_summary in the database Project_NPL_Atlas to use this class.
 
-    Note: (1) Must be passed your credentials to connexion in the global variable "atlas_host"
+    Note: (1) Must be passed your credentials to connexion in the global variable ATLAS_CREDENTIAL
     """
     mongo_client = MongoClient(host="localhost", port=27017)
     mongo_client_atlas = MongoClient(host=ATLAS_CREDENTIAL, server_api=ServerApi("1"))

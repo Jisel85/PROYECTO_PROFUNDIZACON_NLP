@@ -182,7 +182,6 @@ def get_summary_from_llm_mistral_base(text, model_name="HuggingFaceH4/zephyr-7b-
         model=model,
         tokenizer=tokenizer,
         generation_config=generation_config,
-        # torch_dtype=torch.bfloat16,
         return_full_text=True,
     )
 

@@ -13,7 +13,10 @@ langchain
 torch
 git+https://github.com/huggingface/transformers
 sentencepiece
-# transformers[torch]
+
+git+https://github.com/marella/ctransformers
+optimum
+auto-gptq
 
 scipy
 sentencepiece
