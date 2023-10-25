@@ -194,7 +194,7 @@ def user_summary(text: str, model_name="TheBloke/Mistral-7B-Instruct-v0.1-GPTQ")
     return summary_llm
 
 
-with open("/home/andres-campos/github_private/PROYECTO_PROFUNDIZACON_NLP/data/T-273-01.txt", "r") as doc:
+with open("./data/T-273-01.txt", "r") as doc:
     text = doc.read()
 
 summary = user_summary(text)
