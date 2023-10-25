@@ -25,6 +25,7 @@ bitsandbytes
 tiktoken
 chromadb
 huggingface_hub
-gpt4all
+gpt4all>=2.0.0
+python-dotenv
 
 black
