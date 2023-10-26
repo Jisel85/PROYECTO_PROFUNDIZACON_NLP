@@ -3,6 +3,11 @@ import time
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
 
+# Si se necesita la función exllama_set_max_input_length, la importamos aquí
+try:
+    from auto_gptq import exllama_set_max_input_length
+except ImportError:
+    exllama_set_max_input_length = None
 
 def count_tokens_from_gguf_models(text: str) -> int:
     """Returns the number of tokens in a text string with mistral embeddings."""
@@ -23,12 +28,12 @@ def get_template_to_summary_llms_mistral_base(text, model_name="mistral"):
     dict_prompts_template = {
         "mistral": """<s>[INST]Eres un asistente que realiza resumenes de alta calidad.[/INST]</s>[INST]
         Realiza un resumen conciso y en espanol del siguiente texto: {} [/INST]""",
-        "zephyr": """<|system|>
+        "zephyr": """
         Eres un asistente que realiza resumenes de alta calidad. </s>
-        <|user|> Realiza un resumen conciso del siguiente texto: {}.</s><|assistant|>""",
-        "openorca": """<|im_start|> system Eres un asistente que realiza resumenes de alta calidad.<|im_start|>user
+         Realiza un resumen conciso del siguiente texto: {}.</s>""",
+        "openorca": """ system Eres un asistente que realiza resumenes de alta calidad.user
         Realiza un resumen conciso del siguiente texto: {} Proporciona tu respuesta en
-        espanol.<|im_end|><|im_start|>assistant"""
+        espanol.assistant"""
     }
 
     return dict_prompts_template[model_name].format(text)
@@ -57,6 +62,9 @@ def get_simple_summary(text, model_name="TheBloke/Mistral-7B-Instruct-v0.1-GPTQ"
         trust_remote_code=False,
         revision=revision
     )
+
+    if exllama_set_max_input_length:
+        model = exllama_set_max_input_length(model, 4096)
 
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
 
@@ -116,6 +124,9 @@ def get_map_summary(text, model_name="TheBloke/Mistral-7B-Instruct-v0.1-GPTQ"):
         trust_remote_code=False,
         revision=revision
     )
+    
+    if exllama_set_max_input_length:
+        model = exllama_set_max_input_length(model, 4096)
 
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
 
@@ -200,6 +211,9 @@ with open("./data/T-273-01.txt", "r") as doc:
 summary = user_summary(text)
 print(summary)
 print(text)
+
+
+
 
 # ======================================= OTRA FROMA DE GENERAR TEXTO  ============================================= #
 # print("\n\n*** Generate:")
