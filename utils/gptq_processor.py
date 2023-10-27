@@ -28,7 +28,6 @@ class GPTQProcessor:
         )
 
     def process_summary(self, text):
-        print("Llamado a summary!")
         prompt_template = get_template_to_summary_llms_mistral_base(text, model_name="mistral")
         return self.llm(prompt_template)[0]['generated_text'].split("[/INST]")[-1]
 
