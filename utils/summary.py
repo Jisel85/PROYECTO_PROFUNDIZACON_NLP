@@ -14,6 +14,7 @@ def count_tokens_mistral_base_llm(text: str) -> int:
     """Returns the number of tokens in a text string with mistral embeddings."""
     tokenizer = AutoTokenizer.from_pretrained(
         pretrained_model_name_or_path="mistralai/Mistral-7B-Instruct-v0.1",
+        token=HUGGINGFACEHUB_API_TOKEN
     )
     return len(tokenizer.encode(text))
 
@@ -66,3 +67,40 @@ def get_list_text_recursive_splitter(string_text: str, model_name="mistral"):
     list_text_splitter = text_splitter.split_text(string_text)
 
     return list_text_splitter
+
+
+# ===================================== To use in GGUF models ======================================================= #
+mistral = """<s>[INST]
+{system_message}[/INST]</s>
+[INST]
+{user_message}[/INST]"""
+
+zephyr = """<|system|>
+{system_message}</s>
+<|user|>
+{user_message}</s>
+<|assistant|>"""
+
+openorca = """<|im_start|>system
+{system_message}<|im_end|>
+<|im_start|>user
+{user_message}<|im_end|>
+<|im_start|>assistant
+"""
+
+dict_models_template = {
+    "TheBloke/Mistral-7B-Instruct-v0.1-GGUF": mistral,
+    "TheBloke/dolphin-2.1-mistral-7B-GGUF": openorca,
+    "TheBloke/SlimOpenOrca-Mistral-7B-GGUF": openorca,
+    "TheBloke/zephyr-7B-alpha-GGUF": zephyr,
+    "TheBloke/zephyr-7B-beta-GGUF": zephyr,
+    "TheBloke/samantha-1.2-mistral-7B-GGUF": openorca,
+}
+
+
+def get_template_to_summarization_llm(repo_id="TheBloke/Mistral-7B-Instruct-v0.1-GGUF"):
+    """
+    :param repo_id:  Name of the model in Huggingface hub (Ex: TheBloke/zephyr-7B-beta-GGUF )
+    :return:
+    """
+    return dict_models_template[repo_id]

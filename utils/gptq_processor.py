@@ -4,8 +4,8 @@ from utils.summary import get_template_to_summary_llms_mistral_base
 
 
 class GPTQProcessor:
-    def __init__(self, model_name="TheBloke/Mistral-7B-Instruct-v0.1-GPTQ"):
-        revision = "gptq-4bit-32g-actorder_True"
+    def __init__(self, model_name="TheBloke/Mistral-7B-Instruct-v0.1-GPTQ", revision="main"):
+
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
             device_map="auto",
