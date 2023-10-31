@@ -31,7 +31,7 @@ def get_summary_from_zephyr(text, model_name="HuggingFaceH4/zephyr-7b-alpha"):
         model=model,
         tokenizer=tokenizer,
         generation_config=generation_config,
-        return_full_text=True,
+        return_full_text=False,
     )
 
     prompt_template = get_template_to_summary_llms_mistral_base(text, model_name="zephyr")

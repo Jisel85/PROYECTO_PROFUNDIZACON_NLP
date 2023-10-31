@@ -5,7 +5,7 @@ import pandas as pd
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
-ATLAS_CREDENTIAL = os.environ["ATLAS_CREDENTIAL"]
+ATLAS_CREDENTIAL = "nnnn" #os.environ["ATLAS_CREDENTIAL"]
 
 
 logging.basicConfig(
