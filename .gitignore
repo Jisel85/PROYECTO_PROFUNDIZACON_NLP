@@ -128,9 +128,9 @@ celerybeat.pid
 # Environments
 .env
 .venv
-env/
+.env/
 venv/
-ENV/
+.env/
 env.bak/
 venv.bak/
 
@@ -168,8 +168,11 @@ cython_debug/
 # Jupyter Notebooks
 *.ipynb
 
-# Data Proyect.
+# Data Project.
 data/
+
+# Models
+models/
 
 # Data Models
 ruta/
@@ -178,3 +181,11 @@ ruta/
 .dat
 
 data-mongo/
+
+# Files pull request #5
+docker-compose.yml
+queries.mongodb.js
+.vscode
+
+# Script testing
+testing_llms/

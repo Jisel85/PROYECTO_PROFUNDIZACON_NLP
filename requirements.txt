@@ -1,3 +1,7 @@
+# Para instalar con soporte cuBLAS, establezca la variable de entorno LLAMA_CUBLAS=1
+# y use el argumento CMAKE_ARGS="-DLLAMA_CUBLAS=on" durante la instalación.
+llama-cpp-python
+
 pandas
 openpyxl
 
@@ -11,5 +15,19 @@ pymongo
 openai
 langchain
 torch
-transformers[torch]
+git+https://github.com/huggingface/transformers
+sentencepiece
+
+optimum
+auto-gptq
+
+scipy
+sentencepiece
+accelerate
+bitsandbytes
+tiktoken
+chromadb
+huggingface_hub
+python-dotenv
+
 black

@@ -68,3 +68,14 @@ mongodb.mongodb-vscode
 
 ## Conexión al servidor de MongoDB (en este caso, está corriendo localmente)
 client = MongoClient("mongodb://localhost:27017/")
+
+
+## Entorno virtual
+
+export PIPENV_VENV_IN_PROJECT=1
+
+# install python3.10 https://computingforgeeks.com/how-to-install-python-on-debian-linux/
+# error with bitsandbytes https://github.com/TimDettmers/bitsandbytes/issues/620
+
+pip install pipenv 
+pipenv install # or python3 -m pipenv install

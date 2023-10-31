@@ -28,7 +28,7 @@ with open(MAIN_PATH / "data" / "judgments.json", "r") as file:
 
 def open_browser():
     """
-    :return: 
+    :return:
     """
     return webdriver.Firefox(options=options)
 
