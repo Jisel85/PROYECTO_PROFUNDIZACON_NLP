@@ -20,10 +20,10 @@ def get_summary_from_zephyr(text, model_name="HuggingFaceH4/zephyr-7b-alpha"):
         device_map="auto",
     )
 
-    generation_config.max_new_tokens = 256
-    generation_config.temperature = 0.7
-    generation_config.do_sample = True
-    generation_config.top_k = 50
+    generation_config.max_new_tokens = 512
+    generation_config.temperature = 1
+    generation_config.do_sample = False
+    generation_config.top_k = 80
     generation_config.top_p = 0.95
 
     pipe = pipeline(
