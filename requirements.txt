@@ -31,3 +31,7 @@ huggingface_hub
 python-dotenv
 
 black
+
+setuptools
+wheel
+spacy[cuda12x]
