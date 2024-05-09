@@ -33,6 +33,7 @@ def get_template_to_summary_llms_mistral_base(text, model_name="mistral"):
     :return:
     """
     dict_prompts_template = {
+feature/testing_llms
         "mistral": """<s>[INST]Eres un asistente que realiza resumenes en espanol de alta calidad.[/INST]</s>[INST]
         Realiza un resumen conciso y en espanol del siguiente texto: {} [/INST]""",
         #"zephyr": """<|system|> 
@@ -42,6 +43,14 @@ def get_template_to_summary_llms_mistral_base(text, model_name="mistral"):
         Please provide a summary of the text in Spanish: </s>
         <|user|> Please provide a summary of the text in Spanish:: {}.</s><|assistant|>""", 
         "openorca": """<|im_start|> system Eres un asistente que realiza resumenes en espanol de alta calidad.<|im_start|>user 
+=======
+        "mistral": """<s>[INST]Eres un asistente que realiza resumenes de alta calidad.[/INST]</s>[INST]
+        Realiza un resumen conciso y en espanol del siguiente texto: {} [/INST]""",
+        "zephyr": """<|system|> 
+        Eres un asistente que realiza resumenes de alta calidad. </s>
+        <|user|> Realiza un resumen conciso del siguiente texto: {}.</s><|assistant|>""",
+        "openorca": """<|im_start|> system Eres un asistente que realiza resumenes de alta calidad.<|im_start|>user 
+main
         Realiza un resumen conciso del siguiente texto: {} Proporciona tu respuesta en 
         espanol.<|im_end|><|im_start|>assistant"""
     }

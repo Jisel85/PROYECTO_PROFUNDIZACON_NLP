@@ -188,7 +188,3 @@ queries.mongodb.js
 .vscode
 
 # Script testing
-testing_llms/
-
-# modelos bin
-models_downloaded/

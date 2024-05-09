@@ -30,6 +30,7 @@ chromadb
 huggingface_hub
 python-dotenv
 
+feature/testing_llms
 black
 
 setuptools
@@ -38,3 +39,6 @@ spacy[cuda12x]
 
 -U sentence-transformers
 -m spacy download en
+=======
+black
+main

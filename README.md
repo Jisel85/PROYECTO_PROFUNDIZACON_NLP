@@ -78,6 +78,7 @@ export PIPENV_VENV_IN_PROJECT=1
 # error with bitsandbytes https://github.com/TimDettmers/bitsandbytes/issues/620
 
 pip install pipenv 
+
 pipenv install # or python3 -m pipenv install
 
 # Iniciar GPU llama-cpp
@@ -86,3 +87,6 @@ CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install llama-cpp-python
 
 # instalar requirements
 pip install -r requirements.txt
+=======
+pipenv install # or python3 -m pipenv install
+
