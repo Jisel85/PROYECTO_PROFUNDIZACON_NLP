@@ -189,3 +189,6 @@ queries.mongodb.js
 
 # Script testing
 testing_llms/
+
+# modelos bin
+models_downloaded/

@@ -90,7 +90,7 @@ def dividir_texto(text):
     return text1, text2
 
 def procesar_texto(text1, text2):
-    num_sentences_to_generate = 10
+    num_sentences_to_generate = 5
     resumen1 = generate_summary(num_sentences_to_generate, text1)
     resumen2 = generate_summary(num_sentences_to_generate, text2)
     return resumen1, resumen2
@@ -146,92 +146,51 @@ for documento in judgment_collection.find():
 
     print(">>>> ID providencia", providencia_, ":", pinecone_id)
 
-    mayor_que = 7629
+    mayor_que = 17635
 
-    if int(pinecone_id) > mayor_que:
-        try:
-            client_m = MongoJudgments(providencia_)
-            text = client_m.get_feature_of_judgment("raw_text")
+    try:
+        if int(pinecone_id) > mayor_que:
+            try:
+                client_m = MongoJudgments(providencia_)
+                text = client_m.get_feature_of_judgment("raw_text")
 
-            text1, text2 = dividir_texto(text)
-            resumen1, resumen2 = procesar_texto(text1, text2)
-            resumen_final = str(resumen1+resumen2)
+                text1, text2 = dividir_texto(text)
+                resumen1, resumen2 = procesar_texto(text1, text2)
+                resumen_final = str(resumen1+resumen2)
 
-            index = pc.Index("relatoria-emebeddings")
-            query = ''
-            query_vector = model.encode(query).tolist()
-            responses = index.query(vector=query_vector, top_k = 3, include_metadata=True)
+                resultados = index.query(
+                    vector=query_vector,
+                    filter={
+                        "Providencia": {"$eq": providencia_},
+                    },
+                    top_k=1,
+                    include_metadata=True
+                )
 
-            summary = get_summary_from_gguf_llm(
-                text=resumen_final,
-                repo_id="TheBloke/zephyr-7B-beta-GGUF",
-                filename="zephyr-7b-beta.Q4_K_M.gguf"
-            )
-            #logging.info(f"Final summary:\n{summary}")
+                # Seleccionar solo el campo "id" de los resultados
+                ids = [match['id'] for match in resultados['matches']]
 
-            resultados = index.query(
-                vector=query_vector,
-                filter={
-                    "Providencia": {"$eq": providencia_},
-                },
-                top_k=1,
-                include_metadata=True
-            )
+                # Imprimir los ids
+                for id in ids:
+                    id = id
 
-            # Seleccionar solo el campo "id" de los resultados
-            ids = [match['id'] for match in resultados['matches']]
-
-            # Imprimir los ids
-            for id in ids:
-                id = id
-
-            index.update(id=id, set_metadata={"summary": summary, "new": "true"})
-            #print("summary:", summary)
-            #print("Estractivo:", resumen_final)
-
-            # Registrar el procesamiento en el archivo de registro
-            logging.info(f"Procesamiento mistral exitoso para providencia: {providencia_}, id: {pinecone_id}")
-
-        except ValueError:
-            providencia_="C-459-20"
-
-            client_m = MongoJudgments(providencia_)
-            text = client_m.get_feature_of_judgment("raw_text")
-
-            text1, text2 = dividir_texto(text)
-            resumen1, resumen2 = procesar_texto(text1, text2)
-            resumen_final = str(resumen1+resumen2)
-
-            resultados = index.query(
-                vector=query_vector,
-                filter={
-                    "Providencia": {"$eq": providencia_},
-                },
-                top_k=1,
-                include_metadata=True
-            )
-
-            # Seleccionar solo el campo "id" de los resultados
-            ids = [match['id'] for match in resultados['matches']]
-
-            # Imprimir los ids
-            for id in ids:
-                id = id
-
-            index.update(id=id, set_metadata={"summary": resumen_final, "new": "true"})
-            print("No se completa Mistral para", providencia_, pinecone_id)
+                index.update(id=id, set_metadata={"summary_extract": resumen_final, "new": "true"})
+                
+                # Registrar el procesamiento en el archivo de registro
+                logging.info(f"Procesamiento extractivo exitoso para providencia: {providencia_}")
+            
+            except Exception as e:  # Captura cualquier otro tipo de excepción
+                logging.error(f"Procesamiento con error en providencia {providencia_}: {str(e)}")
+                continue  # Omitir procesamiento para evitar interrupciones
+            
+            finally:
+                print("Termina providencia:", providencia_)
+        else:
+            print("Providencia con ID menor a", mayor_que, ":", providencia_)
 
             # Registrar el procesamiento en el archivo de registro
-            logging.info(f"Procesamiento extractivo exitoso para providencia: {providencia_}")
-        
-        except Exception as e:  # Captura cualquier otro tipo de excepción
-            logging.error(f"Procesamiento con error en providencia {providencia_}: {str(e)}")
-            continue  # Omitir procesamiento para evitar interrupciones
-        
-        finally:
-            print("Termina providencia:", providencia_)
-    else:
-        print("Providencia con ID menor a", mayor_que, ":", providencia_)
-
-        # Registrar el procesamiento en el archivo de registro
-        logging.info(f"Procesamiento ya regsitrado para: {providencia_}")
+            logging.info(f"Procesamiento ya regsitrado para: {providencia_}")
+    except Exception as e:
+        print("Error: El ID Pinecone '{}' no es válido.".format(pinecone_id))
+        print("Error:", e)
+        continue

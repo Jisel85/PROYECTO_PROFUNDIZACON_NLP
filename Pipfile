@@ -1,0 +1,34 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+llama-cpp-python = "*"
+pandas = "*"
+openpyxl = "*"
+striprtf = "*"
+webdriver-manager = "*"
+selenium = "*"
+pymongo = "*"
+openai = "*"
+langchain = "*"
+torch = "*"
+transformers = {git = "git+https://github.com/huggingface/transformers"}
+sentencepiece = "*"
+optimum = "*"
+auto-gptq = "*"
+scipy = "*"
+accelerate = "*"
+bitsandbytes = "*"
+tiktoken = "*"
+chromadb = "*"
+huggingface-hub = "*"
+python-dotenv = "*"
+black = "*"
+spacy = {extras = ["cuda12x"], version = "*"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
